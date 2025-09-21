@@ -1,9 +1,15 @@
 package com.example.studyroom.controller;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.studyroom.dto.req.StudyRoomRequestDtoAdmin;
+import com.example.studyroom.dto.res.StudyRoomResponseDto;
 import com.example.studyroom.service.StudyRoomService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -11,7 +17,11 @@ import lombok.RequiredArgsConstructor;
 public class StudyRoomController {
 	private final StudyRoomService studyRoomService;
 
-
+	@PostMapping("/rooms")
+	public ResponseEntity<StudyRoomResponseDto> registrationRoom(@RequestBody StudyRoomRequestDtoAdmin req,
+		HttpServletRequest request) {
+		return ResponseEntity.ok(studyRoomService.registrationRoom(req,request));
+	}
 
 
 }
