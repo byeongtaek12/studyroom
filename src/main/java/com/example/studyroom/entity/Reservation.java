@@ -23,4 +23,8 @@ public class Reservation {
 	private Long roomId;
 	private LocalDateTime startAt;
 	private LocalDateTime endAt;
+
+	public boolean isValid(LocalDateTime startAt, LocalDateTime endAt) {
+		return startAt.isBefore(endAt);
+	}
 }

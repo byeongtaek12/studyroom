@@ -5,8 +5,10 @@ import java.time.LocalDateTime;
 import com.example.studyroom.entity.Reservation;
 
 import lombok.Builder;
+import lombok.Getter;
 
 @Builder
+@Getter
 public class StudyRoomResponseDtoGet {
 	private Long id;
 	private Long roomId;
