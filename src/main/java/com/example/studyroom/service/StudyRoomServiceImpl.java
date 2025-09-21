@@ -69,7 +69,7 @@ public class StudyRoomServiceImpl implements StudyRoomService{
 		if (role.equals("ROLE_USER")) {
 
 			if (reservationRepository.existsByRoomIdAndStartAtAndEndAt(req.getRoomId(), req.getStartAt(), req.getEndAt())) {
-				throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 예약된 시간대입니다");
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "이미 예약된 시간대입니다");
 			}
 
 			Reservation reservation = Reservation.builder()
