@@ -23,4 +23,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 		+ "from Reservation r "
 		+ "where r.roomId = :roomId and r.startAt < :endAt and r.endAt > :startAt")
 	boolean existsByRoomIdAndStartAtAndEndAt(Long roomId, LocalDateTime startAt, LocalDateTime endAt);
+
+	Reservation findByRoomId(Long id);
+
 }

@@ -3,6 +3,7 @@ package com.example.studyroom.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -63,16 +64,22 @@ public class StudyRoomServiceImpl implements StudyRoomService{
 
 	@Transactional
 	@Override
-	public StudyRoomResponseDto reservationsRoom(StudyRoomRequestDtoUser req, HttpServletRequest request) {
+	public StudyRoomResponseDto reservationRoom(StudyRoomRequestDtoUser req, HttpServletRequest request) {
 
 		Object role = request.getAttribute("Role");
+		Object id = request.getAttribute("Id");
 		if (role.equals("ROLE_USER")) {
+
+			Room foundRoom = roomRepository.findById(req.getRoomId())
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+					"존재하지 않는 방입니다"));
 
 			if (reservationRepository.existsByRoomIdAndStartAtAndEndAt(req.getRoomId(), req.getStartAt(), req.getEndAt())) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "이미 예약된 시간대입니다");
 			}
 
 			Reservation reservation = Reservation.builder()
+				.userId((Long)id)
 				.roomId(req.getRoomId())
 				.startAt(req.getStartAt())
 				.endAt(req.getEndAt())
@@ -87,6 +94,21 @@ public class StudyRoomServiceImpl implements StudyRoomService{
 
 		} else {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "유저만 접근 가능합니다.");
+		}
+	}
+
+	@Override
+	public void cancelReservation(Long id, HttpServletRequest req) {
+		Room foundRoom = roomRepository.findById(id)
+			.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+				"존재하지 않습니다"));
+
+		Reservation foundReservation = reservationRepository.findByRoomId(foundRoom.getId());
+
+		if (Objects.equals(foundReservation.getUserId(), req.getAttribute("Id"))) {
+			reservationRepository.delete(foundReservation);
+		} else {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "본인의 예약만 취소할 수 있습니다.");
 		}
 	}
 }

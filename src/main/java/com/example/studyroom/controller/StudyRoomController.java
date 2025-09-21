@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,9 +38,15 @@ public class StudyRoomController {
 	}
 
 	@PostMapping("/reservations")
-	public ResponseEntity<StudyRoomResponseDto> reservationsRoom(@RequestBody StudyRoomRequestDtoUser req,
+	public ResponseEntity<StudyRoomResponseDto> reservationRoom(@RequestBody StudyRoomRequestDtoUser req,
 		HttpServletRequest request) {
-		return ResponseEntity.ok(studyRoomService.reservationsRoom(req,request));
+		return ResponseEntity.ok(studyRoomService.reservationRoom(req,request));
+	}
+
+	@DeleteMapping("/reservations/{id}")
+	public ResponseEntity<Void> cancelReservation(@PathVariable Long id, HttpServletRequest req) {
+		studyRoomService.cancelReservation(id, req);
+		return ResponseEntity.noContent().build();
 	}
 
 

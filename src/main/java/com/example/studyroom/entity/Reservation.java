@@ -21,6 +21,7 @@ public class Reservation {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Long roomId;
+	private Long userId;
 	private LocalDateTime startAt;
 	private LocalDateTime endAt;
 

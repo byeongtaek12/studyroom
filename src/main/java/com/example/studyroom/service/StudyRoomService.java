@@ -13,5 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 public interface StudyRoomService {
 	StudyRoomResponseDto registrationRoom(StudyRoomRequestDtoAdmin req, HttpServletRequest request);
 	List<StudyRoomResponseDtoGet> checkRoom(LocalDate date);
-	StudyRoomResponseDto reservationsRoom(StudyRoomRequestDtoUser req, HttpServletRequest request);
+	StudyRoomResponseDto reservationRoom(StudyRoomRequestDtoUser req, HttpServletRequest request);
+	void cancelReservation(Long id, HttpServletRequest req);
 }
