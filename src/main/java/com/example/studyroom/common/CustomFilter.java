@@ -27,8 +27,8 @@ public class CustomFilter extends OncePerRequestFilter {
 				request.setAttribute("Id", 0);
 				request.setAttribute("Role", "ROLE_ADMIN");
 			} else {
-				String substring = auth.substring(12, auth.length()-1);
-				request.setAttribute("Id", substring);
+				String substring = auth.substring(18);
+				request.setAttribute("Id", Long.valueOf(substring));
 				request.setAttribute("Role", "ROLE_USER");
 			}
 			filterChain.doFilter(request,response);
